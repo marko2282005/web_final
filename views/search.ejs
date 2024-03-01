@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Search Results</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+    .item-info {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Search Results for <%= country %></h1>
+    
+    <% if (newsData && Array.isArray(newsData) && newsData.length > 0) { %>
+      <div class="list-group">
+        <% newsData.slice(0, 5).forEach(function(newsItem) { %>
+          <a href="<%= newsItem.url %>" class="list-group-item list-group-item-action">
+            <h5 class="mb-1"><%= newsItem.title %></h5>
+            <p class="mb-1"><%= newsItem.description %></p>
+            <small><%= new Date(newsItem.publishedAt).toDateString() %></small>
+          </a>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <p>No news available for <%= country %>.</p>
+    <% } %>
+    
+    <hr>
+
+    <p><a href="/main" class="btn btn-primary">Back to Main</a></p>
+  </div>
+
+  <!-- Bootstrap JS и jQuery (размещены в конце для более быстрой загрузки страницы) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

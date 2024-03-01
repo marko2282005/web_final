@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Main Page</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .item {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .item-info {
+      margin-top: 20px;
+    }
+    .carousel-item img {
+      height: 300px;
+      object-fit: cover;
+    }
+    .logout-btn {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Latest News -->
+    <div class="latest-news">
+      <h2>Latest News</h2>
+    
+      <!-- Search Form -->
+      <form action="/main" method="GET" class="form-inline mb-4">
+        <input type="text" name="country" class="form-control mr-2" placeholder="Enter country code (e.g., us)">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </form>
+    
+      <% if (newsData && Array.isArray(newsData) && newsData.length > 0) { %>
+        <div class="list-group">
+          <% newsData.forEach(function(newsItem) { %>
+            <a href="<%= newsItem.url %>" class="list-group-item list-group-item-action">
+              <h5 class="mb-1"><%= newsItem.title %></h5>
+              <p class="mb-1"><%= newsItem.description %></p>
+              <small><%= new Date(newsItem.publishedAt).toDateString() %></small>
+            </a>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <p>No news available.</p>
+      <% } %>
+    </div>
+    
+    <!-- Portfolio Items -->
+    <h2>Portfolio Items</h2>
+    <% if (items.length > 0) { %>
+      <% items.forEach(function(item) { %>
+        <div class="item">
+          <h3><%= item.names.find(n => n.locale === 'en').name %></h3>
+          <div id="carousel<%= item._id %>" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <% item.carouselImages.forEach(function(image, index) { %>
+                <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                  <img src="<%= image %>" class="d-block w-100" alt="Item Image">
+                </div>
+              <% }); %>
+            </div>
+            <a class="carousel-control-prev" href="#carousel<%= item._id %>" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel<%= item._id %>" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+          <div class="item-info">
+            <p><strong>Description:</strong> <%= item.descriptions.find(d => d.locale === 'en').description %></p>
+            <p><strong>Created At:</strong> <%= new Date(item.createdAt).toDateString() %></p>
+            <p><strong>Updated At:</strong> <%= new Date(item.updatedAt).toDateString() %></p>
+            <!-- Кнопки для просмотра без редактирования и удаления -->
+            <!-- Можно добавить ссылку для просмотра деталей, если нужно -->
+          </div>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p>No portfolio items found.</p>
+    <% } %>
+
+    <hr>
+
+    <!-- Ссылка для выхода на страницу /login -->
+    <a href="/login" class="btn btn-secondary logout-btn">Logout</a>
+  </div>
+
+  <!-- Bootstrap JS и jQuery (размещены в конце для более быстрой загрузки страницы) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

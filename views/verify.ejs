@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify Code</title>
+  
+</head>
+<body>
+  <h1>Verify Code</h1>
+  <% if (confirmationCode) { %>
+
+    <form action="/verify" method="POST">
+      <input type="text" name="code" placeholder="Confirmation Code" required><br>
+      <input type="hidden" name="confirmationCode" value="<%= confirmationCode %>">
+      <button type="submit">Verify</button>
+    </form>
+  <% } else { %>
+    <p>Error: No confirmation code provided</p>
+  <% } %>
+
+  <script>
+    const verificationForm = document.getElementById('verificationForm');
+
+    verificationForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const code = document.getElementById('codeInput').value;
+
+      try {
+        const response = await fetch('/verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ code })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert(data.message);
+          // Перенаправление на другую страницу после успешной проверки
+          window.location.href = '/success.html';
+        } else {
+          alert(data.error);
+        }
+      } catch (error) {
+        console.error('Error verifying code:', error);
+      }
+    });
+  </script>
+</body>
+</html>

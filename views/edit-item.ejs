@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Portfolio Item</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    h1 {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    form {
+      background-color: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    label {
+      font-weight: bold;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button[type="submit"] {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Edit Portfolio Item</h1>
+    <form action="/admin/edit/<%= item._id %>?_method=PUT" method="POST">
+      <div class="form-group">
+        <label for="image1">Image 1 URL:</label>
+        <input type="text" id="image1" name="carouselImages[0]" value="<%= item.carouselImages[0] %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="image2">Image 2 URL:</label>
+        <input type="text" id="image2" name="carouselImages[1]" value="<%= item.carouselImages[1] %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="image3">Image 3 URL:</label>
+        <input type="text" id="image3" name="carouselImages[2]" value="<%= item.carouselImages[2] %>" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="name_en">Name (English):</label>
+        <input type="text" id="name_en" name="name_en" value="<%= item.names.find(name => name.locale === 'en').name %>" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description_en">Description (English):</label>
+        <textarea id="description_en" name="description_en" rows="4" required><%= item.descriptions.find(desc => desc.locale === 'en').description %></textarea>
+      </div>
+      
+      <button type="submit">Update Item</button>
+    </form>
+  </div>
+</body>
+</html>
